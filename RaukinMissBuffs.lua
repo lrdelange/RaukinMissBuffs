@@ -43,27 +43,323 @@ end
 
 function RaukinMissBuffs.PARTY_MEMBERS_CHANGED(self,event,arg1)
 	MyRaidClasses = CheckClassRaid()
-	MyMissingBufffs = MissingBufffCheck(MyRaidClasses, MyClassTal)
+	MyMissingBuffs = MissingBuffCheck(MyRaidClasses, MyClassTal)
+	print(unpack(unpack(MyMissingBuffs.Paladin1)))
 end
 
 function RaukinMissBuffs.PLAYER_AURAS_CHANGED(self,event,arg1)
 	-- Call CheckBuffsAndSpec etc
 end
 
-function MissingBufffCheck(theRaidClasses, ownClass)
-	theMissingList = {}
+function MissingBuffCheck(theRaidClasses, ownClass) 
+	theMissingList = {Mage={}, Priest={}, Druid={}, Paladin1={}, Paladin2={}, Paladin3={}, Paladin4={}, Paladin5={}, Paladin6={}}
 
 	----------------- Mage bufffs -----------------
 	if theRaidClasses.Mage>0 then
 		if ownClass~="WARRIORArms" or ownClass~="WARRIORFury" or ownClass~="WARRIORProtection" or ownClass~="DRUIDFeral" then
-			table.insert(theMissingList,{23028, 27127, 27126, 39235, 36880})
+			-- Arcane Intellect/Brilliance
+			table.insert(theMissingList.Mage,{23028, 27127, 27126, 39235, 36880})
 		end
 	end
 
 	----------------- Priest bufffs -----------------
-	if theRaidClasses.Mage>0 then
-		table.insert(theMissingList,{23028, 27127, 27126})
+	if theRaidClasses.Priest>0 then
+		-- Fortitude 
+		table.insert(theMissingList.Priest,{21562, 39231, 21564, 25392, 36004, 25389, 23948, 23947})
 	end
+
+	----------------- Druid bufffs -----------------
+	if theRaidClasses.Druid>0 then
+		-- Mark of the Wild
+		table.insert(theMissingList.Druid,{})
+	end
+
+	----------------- Paladin bufffs -----------------
+	if ownClass=="WARRIORProtection" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{20217, 25898}) -- Kings
+		end
+
+		if theRaidClasses.Paladin==2 then
+			table.insert(theMissingList.Paladin2,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		end
+
+		if theRaidClasses.Paladin==3 then
+			table.insert(theMissingList.Paladin3,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		end
+
+		if theRaidClasses.Paladin==4 then
+			table.insert(theMissingList.Paladin4,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+		end
+
+	elseif ownClass=="WARRIORArms" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		table.insert(theMissingList.Paladin3,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="WARRIORFury" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		table.insert(theMissingList.Paladin3,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="WARLOCKAffliction" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="WARLOCKDemonology" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="WARLOCKDestruction" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="PRIESTHoly" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{20217, 25898}) -- Kings
+		end
+
+		table.insert(theMissingList.Paladin2,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin3,{25895, 1038}) -- Salvation
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="PRIESTShadow" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="PRIESTDiscipline" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{20217, 25898}) -- Kings
+		end
+
+		table.insert(theMissingList.Paladin2,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin3,{25895, 1038}) -- Salvation
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="PALADINProtection" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{20217, 25898}) -- Kings
+		end
+
+		table.insert(theMissingList.Paladin2,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin3,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+		table.insert(theMissingList.Paladin4,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		table.insert(theMissingList.Paladin5,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+
+	elseif ownClass=="PALADINHoly" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25895, 1038}) -- Salvation
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="PALADINRetribution" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		table.insert(theMissingList.Paladin3,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin4,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin5,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin6,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="SHAMANElemental" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="SHAMANEnhancement" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		table.insert(theMissingList.Paladin3,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin4,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin5,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin6,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="SHAMANRestoration" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25895, 1038}) -- Salvation
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="ROGUEAssassination" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		table.insert(theMissingList.Paladin3,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="ROGUECombat" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		table.insert(theMissingList.Paladin3,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="ROGUESubtlety" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		table.insert(theMissingList.Paladin3,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="DRUIDBalance" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="DRUIDFeral" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{20217, 25898}) -- Kings
+		end
+
+		table.insert(theMissingList.Paladin2,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		table.insert(theMissingList.Paladin3,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin4,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+		table.insert(theMissingList.Paladin5,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+
+	elseif ownClass=="DRUIDRestoration" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{20217, 25898}) -- Kings
+		end
+
+		table.insert(theMissingList.Paladin2,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin3,{25895, 1038}) -- Salvation
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="HUNTERBeast Mastery" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		end
+
+		table.insert(theMissingList.Paladin2,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin3,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin4,{25895, 1038}) -- Salvation
+		table.insert(theMissingList.Paladin5,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin6,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="HUNTERMarksmanship" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		end
+
+		table.insert(theMissingList.Paladin2,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin3,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin4,{25895, 1038}) -- Salvation
+		table.insert(theMissingList.Paladin5,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin6,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="HUNTERSurvival" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{19837, 19740, 27140, 25291, 19834, 19835, 19836, 19838, 25782, 27141, 33564, 29381, 25916}) -- Might
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin4,{25895, 1038}) -- Salvation
+		table.insert(theMissingList.Paladin5,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin6,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="MAGEArcane" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="MAGEFire" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	elseif ownClass=="MAGEFrost" then
+		if theRaidClasses.Paladin==1 then
+			table.insert(theMissingList.Paladin1,{25895, 1038}) -- Salvation
+		end
+
+		table.insert(theMissingList.Paladin2,{20217, 25898}) -- Kings
+		table.insert(theMissingList.Paladin3,{25918, 27143, 25894, 25290, 19852, 19853, 19742, 27142, 19850, 19854}) -- Wisdom
+		table.insert(theMissingList.Paladin4,{19977, 19978, 19979, 27144, 32770, 25890, 27145}) -- Light
+		table.insert(theMissingList.Paladin5,{27168, 20911, 20912, 20913, 20914, 25899, 27169}) -- Sanctuary
+
+	else
+	end
+	return theMissingList
 
 end
 
